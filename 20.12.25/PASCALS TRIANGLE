@@ -1,0 +1,19 @@
+class Solution {
+    public List<List<Integer>> generate(int n) {
+        List<List<Integer>> retList = new ArrayList<>();
+
+        for(int i=0; i<n; i++){
+            List<Integer> tempList = new ArrayList<>();
+            for(int j=0; j<=i; j++){
+                if(j==0 || j==i){
+                    tempList.add(1);
+                }else{
+                    tempList.add(retList.get(i-1).get(j) + retList.get(i-1).get(j-1));
+                }
+            }
+            retList.add(tempList);
+        }
+
+        return retList; 
+    }
+}
