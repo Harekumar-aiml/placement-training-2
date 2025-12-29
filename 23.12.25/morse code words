@@ -1,0 +1,20 @@
+class Solution {
+    public int uniqueMorseRepresentations(String[] words) {
+        // Morse code table for 26 letters
+        String[] morse = {".-","-...","-.-.","-..",".","..-.","--.","....","..",
+                          ".---","-.-",".-..","--","-.","---",".--.","--.-",".-.",
+                          "...","-","..-","...-",".--","-..-","-.--","--.."};
+        
+        Set<String> transformations = new HashSet<>();
+        
+        for (String word : words) {
+            StringBuilder sb = new StringBuilder();
+            for (char c : word.toCharArray()) {
+                sb.append(morse[c - 'a']); // map each letter to Morse
+            }
+            transformations.add(sb.toString());
+        }
+        
+        return transformations.size();
+    }
+}
