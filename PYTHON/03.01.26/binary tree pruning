@@ -1,0 +1,31 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution(object):
+    def pruneTree(self, root):
+        """
+        :type root: Optional[TreeNode]
+        :rtype: Optional[TreeNode]
+        """
+        def dfs(node):
+            if not node:
+                return False
+            
+            left = dfs(node.left)
+            right = dfs(node.right)
+
+            if left == False:
+                node.left = None
+            
+            if right == False:
+                node.right = None
+
+            if node.val == 0 and left == False and right == False:
+                return False
+            else:
+                return True
+        
+        return root if dfs(root) else None
