@@ -1,0 +1,31 @@
+class Solution(object):
+    def dfs(self,graph,node,vis,ans,terminal):
+        safe = True
+        vis[node]=1
+        for i in graph[node]:
+            if not vis[i]:
+                if not self.dfs(graph,i,vis,ans,terminal):
+                    safe=False
+                    break
+            elif not terminal[i]:
+                safe= False
+                break
+        if safe:
+            ans.append(node)
+            terminal[node]=1
+            return True
+        return False
+    def eventualSafeNodes(self, graph):
+        """
+        :type graph: List[List[int]]
+        :rtype: List[int]
+        """
+        n = len(graph)
+        vis = [0]*n
+        terminal = [0]*n
+        ans = []
+        for i in range(0,n):
+            if not vis[i]:
+                t = self.dfs(graph,i,vis,ans,terminal)
+        ans = sorted(ans)
+        return ans
