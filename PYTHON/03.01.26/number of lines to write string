@@ -1,0 +1,12 @@
+class Solution(object):
+    def numberOfLines(self, widths, s):
+        sum=0
+        line=1
+
+        for i in s:
+            sum+=widths[ord(i)-ord('a')]
+            if(sum>100):
+                line+=1
+                sum = widths[ord(i) - ord('a')]
+        return [line,sum]
+        
