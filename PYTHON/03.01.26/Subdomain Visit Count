@@ -1,0 +1,26 @@
+class Solution(object):
+    def subdomainVisits(self, cpdomains):
+        """
+        :type cpdomains: List[str]
+        :rtype: List[str]
+        """
+        retlist = {}
+        for cpdomain in cpdomains:
+            numText, domain = cpdomain.split(" ", 1)
+            count = int(numText)
+            subdomains = domain.split(".")
+
+            for i in range(len(subdomains)):
+                newSubdomain = ".".join(subdomains[i:])
+                if newSubdomain in retlist:
+                    retlist[newSubdomain] += count
+                else:
+                    retlist[newSubdomain] = count
+
+        result = []
+        for k, v in retlist.items():
+            result.append(str(v) + " " + k)
+
+        return result
+
+        
