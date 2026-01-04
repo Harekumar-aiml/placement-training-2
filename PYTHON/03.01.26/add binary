@@ -1,0 +1,34 @@
+class Solution(object):
+    def expressiveWords(self, s, words):
+        def check(S, W):
+            i = j = 0
+            while i < len(S) and j < len(W):
+                if S[i] != W[j]:
+                    return False
+                
+                # Count group lengths in S
+                lenS = 1
+                while i + lenS < len(S) and S[i + lenS] == S[i]:
+                    lenS += 1
+                
+                # Count group lengths in W
+                lenW = 1
+                while j + lenW < len(W) and W[j + lenW] == W[j]:
+                    lenW += 1
+                
+                # Rule check
+                if lenS < lenW:
+                    return False
+                if lenS != lenW and lenS < 3:
+                    return False
+                
+                i += lenS
+                j += lenW
+            
+            return i == len(S) and j == len(W)
+        
+        count = 0
+        for word in words:
+            if check(s, word):
+                count += 1
+        return count
