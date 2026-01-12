@@ -1,0 +1,83 @@
+class Solution {
+
+    /**
+     * Finds the node just BEFORE the middle of the linked list.
+     * This helps us split the list into two halves for merge sort.
+     */
+    private ListNode getMiddle(ListNode head) {
+
+        ListNode slow = head;   // moves one step
+        ListNode fast = head;   // moves two steps
+        ListNode prev = null;   // tracks node before slow
+
+        // when fast reaches the end, slow is at middle
+        while (fast != null && fast.next != null) {
+            prev = slow;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // prev is the node before the middle
+        return prev;
+    }
+
+    /**
+     * Merges two sorted linked lists into one sorted list.
+     * This is the standard merge step of merge sort.
+     */
+    private ListNode merge2LL(ListNode l1, ListNode l2) {
+
+        // Dummy node to simplify edge cases
+        ListNode dummy = new ListNode(-1); 
+        ListNode curr = dummy;
+
+        // Compare nodes from both lists and attach the smaller one
+        while (l1 != null && l2 != null) {
+            if (l1.val <= l2.val) {
+                curr.next = l1;
+                l1 = l1.next;
+            } else {
+                curr.next = l2;
+                l2 = l2.next;
+            }
+            curr = curr.next;
+        }
+
+        // Attach remaining nodes (only one list will be non-null)
+        if (l1 != null) curr.next = l1;
+        else curr.next = l2;
+
+        return dummy.next;
+    }
+
+    /**
+     * Recursively divides the linked list and sorts it using merge sort.
+     */
+    private ListNode divide(ListNode head) {
+
+        // Base case: empty list or single node is already sorted
+        if (head == null || head.next == null) return head;
+
+        // Find the node before the middle
+        ListNode middle = getMiddle(head);
+
+        // Split the list into two halves
+        ListNode leftHead = head;
+        ListNode rightHead = middle.next;
+        middle.next = null; // break the list
+
+        // Recursively sort both halves
+        leftHead = divide(leftHead);
+        rightHead = divide(rightHead);
+
+        // Merge the two sorted halves
+        return merge2LL(leftHead, rightHead);
+    }
+
+    /**
+     * Entry point: sorts the linked list using merge sort.
+     */
+    public ListNode sortList(ListNode head) {
+        return divide(head);
+    }
+}
